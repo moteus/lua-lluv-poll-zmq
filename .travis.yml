@@ -1,0 +1,40 @@
+language: c
+
+sudo: false
+
+env:
+  global:
+    - LUAROCKS=2.2.0
+  matrix:
+    - LUA=lua5.1
+    # - LUA=lua5.2
+    # - LUA=lua5.3
+    # - LUA=luajit
+
+branches:
+  only:
+    - master
+
+before_install:
+  - source .travis/setenv_lua.sh
+  - bash .travis/setup_uv.sh
+  - luarocks install luacov-coveralls
+  - luarocks install lunitx
+  - luarocks install lzmq
+  - luarocks install lluv UV_DIR=$TRAVIS_BUILD_DIR/libuv
+
+install:
+  - luarocks make rockspecs/lluv-redis-scm-0.rockspec 
+
+script: 
+  - cd test
+  - lua test.lua inproc://test
+  - lua test.lua tcp://127.0.0.1:*
+
+after_success:
+  - luacov-coveralls -v
+
+notifications:
+  email:
+    on_success: change
+    on_failure: always
