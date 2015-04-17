@@ -6,7 +6,7 @@ env:
   global:
     - LUAROCKS=2.2.0
   matrix:
-    - LUA=lua5.1 ZMQ_VER=3.2
+    # - LUA=lua5.1 ZMQ_VER=3.2
     - LUA=lua5.1 ZMQ_VER=4.0
     - LUA=lua5.1 ZMQ_VER=4.1
     - LUA=lua5.1 ZMQ_VER=4.2
