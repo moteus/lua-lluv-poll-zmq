@@ -1,15 +1,15 @@
 language: c
 
-sudo: false
+sudo: required
 
 env:
   global:
     - LUAROCKS=2.2.0
   matrix:
-    - LUA=lua5.1
-    # - LUA=lua5.2
-    # - LUA=lua5.3
-    # - LUA=luajit
+    # - LUA=lua5.1 ZMQ_VER=3.2
+    # - LUA=lua5.1 ZMQ_VER=4.0
+    - LUA=lua5.1 ZMQ_VER=4.1
+    # - LUA=lua5.1 ZMQ_VER=4.2
 
 branches:
   only:
@@ -18,13 +18,14 @@ branches:
 before_install:
   - source .travis/setenv_lua.sh
   - bash .travis/setup_uv.sh
+  - bash .travis/setup_zmq.sh
   - luarocks install luacov-coveralls
   - luarocks install lunitx
   - luarocks install lzmq
   - luarocks install lluv UV_DIR=$TRAVIS_BUILD_DIR/libuv
 
 install:
-  - luarocks make rockspecs/lluv-redis-scm-0.rockspec 
+  - luarocks make rockspecs/lluv-poll-zmq-scm-0.rockspec
 
 script: 
   - cd test
