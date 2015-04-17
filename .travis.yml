@@ -6,10 +6,10 @@ env:
   global:
     - LUAROCKS=2.2.0
   matrix:
-    # - LUA=lua5.1 ZMQ_VER=3.2
-    # - LUA=lua5.1 ZMQ_VER=4.0
+    - LUA=lua5.1 ZMQ_VER=3.2
+    - LUA=lua5.1 ZMQ_VER=4.0
     - LUA=lua5.1 ZMQ_VER=4.1
-    # - LUA=lua5.1 ZMQ_VER=4.2
+    - LUA=lua5.1 ZMQ_VER=4.2
 
 branches:
   only:
@@ -30,8 +30,8 @@ install:
 
 script: 
   - cd test
-  - lua test.lua inproc://test
-  - lua test.lua tcp://127.0.0.1:*
+  - lua -lluacov test.lua inproc://test
+  - lua -lluacov test.lua tcp://127.0.0.1:*
 
 after_success:
   - luacov-coveralls -v
